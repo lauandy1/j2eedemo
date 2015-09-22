@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须指向Dao接口 -->
+<mapper namespace="com.lauandy.j2eedemo.demo1.dao.UserDao">
+
+    <resultMap id="userMapper" type="User">
+        <result property="id" column="id"/>
+        <result property="sex" column="sex"/>
+        <result property="email" column="email"/>
+    </resultMap>
+
+    <insert id="insertUser" parameterType="User">
+        insert into t_user(name,sex,email)
+        values(#{name},#{sex},#{email})
+    </insert>
+
+    <select id="getUserById" parameterType="int" resultType="User">
+        select id, name, email
+        from t_user
+        where id=#{id}
+    </select>
+
+    <select id="getUserList" parameterType="java.util.Map" resultMap="userMapper">
+         select id, name, sex,email
+        from t_user
+        where 1=1
+        <if test="name !=null">
+            AND name = #{name}
+        </if>
+        <if test="sex !=null">
+            AND sex = #{sex}
+        </if>
+    </select>
+
+
+</mapper>
